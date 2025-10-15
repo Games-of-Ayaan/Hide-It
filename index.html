@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>hideIt — Sci‑Fi Encrypt / Decrypt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#041020;--panel:rgba(6,18,30,0.55);--glass:rgba(255,255,255,0.03);--neon:#00f0ff;--neon-2:#2ee6ff;--muted:#87a3b4;--accent:#6ef0ff}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Rajdhani,Inter,Segoe UI,Arial;background:var(--bg);color:#dff7ff;overflow:hidden}
+
+    /* background canvas sits behind everything */
+    #bg-canvas{position:fixed;inset:0;z-index:0}
+
+    .wrap{position:relative;z-index:5;max-width:1100px;margin:32px auto;padding:20px}
+    header{display:flex;align-items:center;gap:14px}
+    h1{margin:0;font-family:Orbitron, Rajdhani, sans-serif;font-size:28px;color:var(--neon-2);text-shadow:0 0 12px rgba(46,230,255,0.12)}
+    .tag{font-size:12px;color:var(--muted);margin-top:4px}
+    nav{margin-left:auto;display:flex;gap:8px}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600;transition:all .18s}
+    nav a.active{color:var(--neon);box-shadow:0 0 18px rgba(46,230,255,0.06);background:linear-gradient(90deg, rgba(46,230,255,0.04), rgba(0,240,255,0.02))}
+
+    /* glass card */
+    .card{backdrop-filter:blur(8px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(46,230,255,0.06);border-radius:12px;padding:20px;margin-top:18px;box-shadow:0 12px 40px rgba(2,8,14,0.6)}
+    h2{margin:0 0 8px 0;font-family:Orbitron, Rajdhani, sans-serif;color:var(--neon)}
+    label{display:block;margin-top:10px;color:var(--muted);font-size:13px}
+
+    input[type=file], input[type=text], textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);margin-top:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));color:#e9fbff;font-size:14px}
+    input[type=file]::-webkit-file-upload-button{background:transparent;color:var(--neon);border:1px solid rgba(46,230,255,0.12);padding:8px;border-radius:8px}
+
+    .neon-btn{background:linear-gradient(90deg,var(--neon),var(--neon-2));color:#001; border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:0 8px 30px rgba(46,230,255,0.12),0 0 18px rgba(0,240,255,0.06);transition:transform .12s}
+    .neon-btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+
+    .files-list{margin-top:12px;display:flex;flex-direction:column;gap:10px}
+    .file-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.04));border:1px solid rgba(255,255,255,0.02)}
+    .file-meta{font-size:13px;color:var(--muted)}
+    .actions{display:flex;gap:8px;align-items:center}
+
+    .copy-btn{background:#001424;color:var(--neon);border:1px solid rgba(46,230,255,0.14);padding:8px 10px;border-radius:8px;cursor:pointer}
+
+    .status{margin-top:10px;color:var(--muted);font-size:13px}
+
+    footer{margin-top:22px;color:var(--muted);text-align:center;font-size:13px}
+
+    /* responsive */
+    @media (max-width:820px){.wrap{padding:12px;margin:18px auto}header{flex-direction:column;align-items:flex-start}nav{margin-left:0}} 
+
+    /* subtle panel animations */
+    .card{transition:transform .25s,box-shadow .25s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(2,8,14,0.75)}
+
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>hideIt</h1>
+        <div class="tag">Hide it from the world</div>
+      </div>
+      <nav>
+        <a href="#home" id="nav-home">Home</a>
+        <a href="#encrypt" id="nav-encrypt">Encrypt</a>
+        <a href="#decrypt" id="nav-decrypt">Decrypt</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="page-home" class="card" style="display:none">
+        <h2>Welcome</h2>
+        <p class="status">Hide It is a next-generation data encryption platform built to secure your files with cutting-edge browser-based cryptography.
+
+Upload any file — image, video, document, or archive — and Hide It will instantly encrypt it into a stream of mysterious symbols, producing a unique .p8 key file that only you possess.
+No servers. No tracking. Everything happens locally in your browser, ensuring absolute privacy and zero data leakage.
+
+To recover your data, simply open the Decrypt page, upload your key, paste the encrypted symbol text, and your original file is instantly reconstructed.
+
+🧠 Key Features
+
+🔐 Client-side encryption: Your files never leave your device.
+
+🧾 Symbolic cipher output: Encrypted data appears as complex symbol text.
+
+🗝️ .p8 key file: Each file gets its own unique decryption key.
+
+⚙️ Multi-file support: Encrypt or decrypt multiple files in one go.
+
+🛰️ Sci-Fi interface: Futuristic, glowing UI with animated particle background.
+
+💾 Offline-ready: Works even without internet access.</p>
+      </section>
+
+      <section id="page-encrypt" class="card" style="display:none">
+        <h2>Encrypt — Multi-file</h2>
+        <label>Select files (multiple allowed)</label>
+        <input type="file" id="file-input" multiple />
+        <label>Optional key base name</label>
+        <input type="text" id="key-name" placeholder="optional base name for keys" />
+        <div style="height:10px"></div>
+        <button id="encrypt-btn" class="neon-btn">Encrypt selected files</button>
+        <div id="enc-status" class="status"></div>
+        <div class="files-list" id="enc-list"></div>
+      </section>
+
+      <section id="page-decrypt" class="card" style="display:none">
+        <h2>Decrypt — Multi-key</h2>
+        <label>Upload .p8 key files (multiple)</label>
+        <input type="file" id="key-file-input" multiple accept=".p8,application/json" />
+        <label>Upload symbol .txt files (multiple) or paste below</label>
+        <input type="file" id="symbol-file-input" multiple accept=".txt" />
+        <textarea id="symbol-text" rows="6" placeholder="Or paste symbol text here (optional). For multiple files use uploads."></textarea>
+        <div style="height:10px"></div>
+        <button id="decrypt-btn" class="neon-btn">Decrypt uploaded files</button>
+        <div id="dec-status" class="status"></div>
+        <div id="dec-list" class="files-list"></div>
+      </section>
+    </main>
+
+    <footer>A GameDev Ayaan creation.</footer>
+  </div>
+
+  <script>
+    // --- Background particle field (canvas) ----
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let w=canvas.width=innerWidth, h=canvas.height=innerHeight;
+    const particles = [];
+    const COUNT = Math.floor((w*h)/50000); // density
+
+    function rand(min,max){return Math.random()*(max-min)+min}
+    function initParticles(){particles.length=0; for(let i=0;i<COUNT;i++){particles.push({x:rand(0,w),y:rand(0,h),r:rand(0.6,2.2),vx:rand(-0.2,0.2),vy:rand(-0.2,0.2),pulse:Math.random()*Math.PI*2})}}
+    function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;initParticles()}
+    addEventListener('resize', resize);
+
+    function draw(){ctx.clearRect(0,0,w,h);
+      // gradient background
+      const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,'#001426');g.addColorStop(1,'#001a2a');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+      // subtle grid
+      ctx.strokeStyle='rgba(70,140,170,0.04)';ctx.lineWidth=1;const gap=80;for(let x=0;x<w;x+=gap){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=gap){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+
+      // particles
+      for(const p of particles){p.x+=p.vx; p.y+=p.vy; p.pulse+=0.02; if(p.x<0) p.x=w; if(p.x>w) p.x=0; if(p.y<0) p.y=h; if(p.y>h) p.y=0;
+        const glow = 0.6 + Math.sin(p.pulse)*0.4; const rad = p.r* (1+Math.sin(p.pulse)*0.6);
+        const grd = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,rad*6); grd.addColorStop(0,'rgba(46,230,255,'+ (0.12*glow) +')'); grd.addColorStop(0.2,'rgba(46,230,255,'+ (0.07*glow) +')'); grd.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,rad*4,0,Math.PI*2); ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    resize(); draw();
+
+    // --- Router ---
+    const pages={home:document.getElementById('page-home'),encrypt:document.getElementById('page-encrypt'),decrypt:document.getElementById('page-decrypt')};
+    function showPage(name){Object.keys(pages).forEach(k=>pages[k].style.display=(k===name?'block':'none'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('nav-'+name).classList.add('active');}
+    function route(){const h=location.hash.replace('#','')||'home';if(!pages[h])location.hash='#home';showPage(h||'home');}
+    window.addEventListener('hashchange',route);route();
+
+    // --- crypto helpers ---
+    function bytesToBase64(bytes){let binary='';const len=bytes.byteLength;const chunk=0x8000;for(let i=0;i<len;i+=chunk){binary+=String.fromCharCode.apply(null,Array.from(new Uint8Array(bytes.slice(i,i+chunk))))}return btoa(binary)}
+    function base64ToBytes(b64){const bin=atob(b64);const len=bin.length;const bytes=new Uint8Array(len);for(let i=0;i<len;i++)bytes[i]=bin.charCodeAt(i);return bytes.buffer}
+
+    const SYMBOLS = "!@#$%^&*()_+-=[]{}|;:'\".,<>/?~☀☁☂♠♥♦♣■▲◆";
+    function bytesToSymbols(buf){const bytes=new Uint8Array(buf);let out='';for(let b of bytes){const a=b>>4;const c=b&0x0f;out+=SYMBOLS.charAt(a%SYMBOLS.length)+SYMBOLS.charAt(c%SYMBOLS.length);}return out}
+    function symbolsToBytes(sym){const arr=new Uint8Array(Math.floor(sym.length/2));for(let i=0;i<sym.length;i+=2){const s1=SYMBOLS.indexOf(sym.charAt(i));const s2=SYMBOLS.indexOf(sym.charAt(i+1));const b=((s1&0x0f)<<4)|(s2&0x0f);arr[i/2]=b;}return arr.buffer}
+
+    // --- UI & encryption logic (kept intact) ---
+    const fileInput=document.getElementById('file-input');
+    const encryptBtn=document.getElementById('encrypt-btn');
+    const encStatus=document.getElementById('enc-status');
+    const encList=document.getElementById('enc-list');
+    const keyNameInput=document.getElementById('key-name');
+
+    encryptBtn.addEventListener('click',async()=>{
+      const files = Array.from(fileInput.files);
+      if(files.length===0){encStatus.textContent='Select one or more files.';return}
+      encStatus.textContent='Encrypting...';
+      encList.innerHTML='';
+      for(const file of files){
+        try{
+          if(file.size > 700*1024*1024){ if(!confirm(`${file.name} seems large (${(file.size/1024/1024).toFixed(1)} MB). Browser may fail. Continue?`)){ encStatus.textContent='Cancelled by user.';return; } }
+          const buf = await file.arrayBuffer();
+          const key = await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt','decrypt']);
+          const rawKey = await crypto.subtle.exportKey('raw', key);
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          const cipher = await crypto.subtle.encrypt({name:'AES-GCM',iv},key,buf);
+          const symbolText = bytesToSymbols(new Uint8Array(cipher));
+
+          const base = (keyNameInput.value || 'key') + '_' + file.name.replace(/\.[^/.]+$/, '');
+          const keyObj = {k: bytesToBase64(rawKey), iv: bytesToBase64(iv.buffer), alg: 'AES-GCM-256', name: file.name};
+          const keyBlob = new Blob([JSON.stringify(keyObj)], {type:'application/json'});
+          const symBlob = new Blob([symbolText], {type:'text/plain;charset=utf-8'});
+
+          const item = document.createElement('div'); item.className='file-item';
+          const meta = document.createElement('div'); meta.innerHTML = `<div><strong style="color:var(--neon)">${file.name}</strong></div><div class="file-meta">Size: ${(file.size/1024/1024).toFixed(2)} MB • Symbols: ${symbolText.length}</div>`;
+          const actions = document.createElement('div'); actions.className='actions';
+
+          const aSym = document.createElement('a'); aSym.href = URL.createObjectURL(symBlob); aSym.download = file.name + '.hide.txt'; aSym.textContent = 'Download symbols'; aSym.style.color='var(--neon)';
+          const aKey = document.createElement('a'); aKey.href = URL.createObjectURL(keyBlob); aKey.download = (base)+'.p8'; aKey.textContent = 'Download key (.p8)'; aKey.style.color='var(--neon)';
+          const copyBtn = document.createElement('button'); copyBtn.textContent='Copy symbols'; copyBtn.className='copy-btn';
+
+          copyBtn.addEventListener('click', async ()=>{
+            try{ await navigator.clipboard.writeText(symbolText); copyBtn.textContent='Copied ✓'; setTimeout(()=>copyBtn.textContent='Copy symbols',1400);}catch(e){alert('Copy failed — use the download link.');}
+          });
+
+          actions.appendChild(aSym); actions.appendChild(aKey); actions.appendChild(copyBtn);
+          item.appendChild(meta); item.appendChild(actions);
+          encList.appendChild(item);
+        }catch(err){ console.error(err); const item=document.createElement('div');item.className='file-item';item.textContent = `Failed to encrypt ${file.name}: ${err.message||err}`;encList.appendChild(item); }
+      }
+      encStatus.textContent = 'Done — download or copy symbols and keys.';
+    });
+
+    // decrypt
+    const keyFileInput = document.getElementById('key-file-input');
+    const symbolFileInput = document.getElementById('symbol-file-input');
+    const symbolTextArea = document.getElementById('symbol-text');
+    const decryptBtn = document.getElementById('decrypt-btn');
+    const decStatus = document.getElementById('dec-status');
+    const decList = document.getElementById('dec-list');
+
+    function nameNoExt(n){return n.replace(/\.[^/.]+$/, '');}
+
+    decryptBtn.addEventListener('click', async ()=>{
+      decList.innerHTML='';
+      const keyFiles = Array.from(keyFileInput.files || []);
+      const symFiles = Array.from(symbolFileInput.files || []);
+      const pasted = symbolTextArea.value.trim();
+
+      if(keyFiles.length===0 && pasted===''){ decStatus.textContent='Please upload at least one .p8 key file.'; return; }
+      decStatus.textContent='Decrypting...';
+
+      const symMap = new Map();
+      for(const f of symFiles){ const t = await f.text(); symMap.set(nameNoExt(f.name), t); }
+
+      for(const kf of keyFiles){
+        try{
+          const keyJson = JSON.parse(await kf.text());
+          const symTextFromMap = symMap.get(nameNoExt(kf.name)) || null;
+          const symbolText = symTextFromMap || (pasted || '');
+          if(!symbolText){ const item=document.createElement('div');item.className='file-item';item.textContent = `No symbol text found for key ${kf.name}`;decList.appendChild(item);continue; }
+
+          const rawKeyBuf = base64ToBytes(keyJson.k);
+          const ivBuf = base64ToBytes(keyJson.iv);
+          const key = await crypto.subtle.importKey('raw', rawKeyBuf, 'AES-GCM', true, ['decrypt']);
+          const cipherBuf = symbolsToBytes(symbolText);
+          const plain = await crypto.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(ivBuf)}, key, cipherBuf);
+          const blob = new Blob([plain]);
+          const filename = keyJson.name || (nameNoExt(kf.name) || 'decrypted-file');
+          const url = URL.createObjectURL(blob);
+
+          const item = document.createElement('div'); item.className='file-item';
+          const meta = document.createElement('div'); meta.innerHTML = `<div><strong style="color:var(--neon)">${filename}</strong></div><div class="file-meta">Recovered • ${(plain.byteLength/1024).toFixed(1)} KB</div>`;
+          const actions = document.createElement('div'); actions.className='actions';
+          const a = document.createElement('a'); a.href = url; a.download = filename; a.textContent = 'Download file'; a.style.color='var(--neon)';
+          actions.appendChild(a);
+          item.appendChild(meta); item.appendChild(actions);
+          decList.appendChild(item);
+        }catch(err){ console.error(err); const item=document.createElement('div');item.className='file-item';item.textContent = `Failed to decrypt ${kf.name}: ${err.message||err}`;decList.appendChild(item); }
+      }
+
+      decStatus.textContent = 'Done — download recovered files from the list above.';
+    });
+
+    // small nicety: keyboard shortcut: Ctrl+E opens encrypt
+    addEventListener('keydown', e=>{ if(e.ctrlKey && e.key.toLowerCase()==='e') location.hash='#encrypt'; })
+  </script>
+</body>
+</html>
