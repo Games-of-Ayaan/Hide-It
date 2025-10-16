@@ -65,6 +65,7 @@ Bash
 
 git clone https://github.com/Games-of-Ayaan/Hide-It.git
 cd Hide-It
+
 Run a local web server (using Python is the simplest):
 
 Bash
