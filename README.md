@@ -1,4 +1,4 @@
-# HideIt: Sci-Fi Encrypt / Decrypt 💾🔒
+# HideIt: Encrypt / Decrypt 💾🔒
 hideIt is a next-generation, browser-based data encryption platform designed to secure your files using cutting-edge client-side cryptography. Upload any file—image, video, document, or archive—and transform it into a stream of mysterious, shareable symbols, secured by a unique, local key.
 
 Absolute privacy is the core protocol. All encryption and decryption processes occur directly in your browser, ensuring zero server-side processing and zero data leakage.
@@ -15,6 +15,7 @@ Key Management: Generates a secure .p8 key file for every encrypted data stream.
 Futuristic UI: A dynamic, neon-themed interface built with a subtle particle field and glass morphism for a cutting-edge user experience.
 
 How It Works
+
 Encrypt 🔐
 Select one or more files (any format) to upload.
 
@@ -53,6 +54,7 @@ Web Crypto API: For all cryptographic operations (AES-GCM-256).
 Canvas API: Used for the subtle, animated background particle field.
 
 Setup and Development
+
 Since this is a client-side application, you don't need a complex backend setup—just a local web server to run the files.
 
 Prerequisites
