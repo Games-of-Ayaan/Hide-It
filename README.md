@@ -61,17 +61,10 @@ You need a modern web browser that supports the Web Crypto API (Chrome, Firefox,
 Local Installation
 Clone the repository:
 
-Bash
 
-git clone https://github.com/Games-of-Ayaan/Hide-It.git
-cd Hide-It
+` git clone https://github.com/Games-of-Ayaan/Hide-It.git
+cd Hide-It`
 
-Run a local web server (using Python is the simplest):
-
-Bash
-
-python3 -m http.server 8000
-Open your browser and navigate to http://localhost:8000 (or the port your server is running on).
 
 Contributing
 We welcome contributions! Whether you want to fix a bug, enhance the UI, or propose a new cryptographic feature, please feel free to fork the repository and submit a Pull Request.
@@ -87,6 +80,6 @@ Push to the Branch (git push origin feature/AmazingFeature).
 Open a Pull Request.
 
 Contact
-Ayaan GameDev – gamedevayaan@gmail.com
+Ayaan GameDev – `gamedevayaan@gmail.com`
 
-Project Link: https://github.com/Games-of-Ayaan/Hide-It
+Project Link: `https://github.com/Games-of-Ayaan/Hide-It`
