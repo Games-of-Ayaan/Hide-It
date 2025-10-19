@@ -1,4 +1,7 @@
 # HideIt: Encrypt / Decrypt 💾🔒
+
+If you are looking for HideIt Pro, its repo is here = https://github.com/Games-of-Ayaan/HideIt-Pro
+
 hideIt is a next-generation, browser-based data encryption platform designed to secure your files using cutting-edge client-side cryptography. Upload any file—image, video, document, or archive—and transform it into a stream of mysterious, shareable symbols, secured by a unique, local key.
 
 Absolute privacy is the core protocol. All encryption and decryption processes occur directly in your browser, ensuring zero server-side processing and zero data leakage.
