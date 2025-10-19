@@ -8,14 +8,16 @@
   <style>
     :root{--bg:#041020;--panel:rgba(6,18,30,0.55);--glass:rgba(255,255,255,0.03);--neon:#00f0ff;--neon-2:#2ee6ff;--muted:#87a3b4;--accent:#6ef0ff}
     *{box-sizing:border-box}
-    html, body {
-  height: 100%;
+   html, body {
+  height: auto;
   margin: 0;
   font-family: Rajdhani, Inter, Segoe UI, Arial;
   background: var(--bg);
   color: #dff7ff;
-  overflow: hidden; /* 🚫 this blocks scrolling */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 
 
     /* background canvas sits behind everything */
@@ -275,4 +277,5 @@ To recover your data, simply open the Decrypt page, upload your key, paste the e
   </script>
 </body>
 </html>
+
 
