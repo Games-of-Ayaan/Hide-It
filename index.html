@@ -29,6 +29,26 @@ html, body {
     nav{margin-left:auto;display:flex;gap:8px}
     nav a{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:8px;font-weight:600;transition:all .18s}
     nav a.active{color:var(--neon);box-shadow:0 0 18px rgba(46,230,255,0.06);background:linear-gradient(90deg, rgba(46,230,255,0.04), rgba(0,240,255,0.02))}
+.download-btn {
+  background: linear-gradient(135deg, #0ff, #05f);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  font-size: 18px;
+  font-family: 'Orbitron', sans-serif;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+}
+
+.download-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+}
 
     /* glass card */
     .card{backdrop-filter:blur(8px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(46,230,255,0.06);border-radius:12px;padding:20px;margin-top:18px;box-shadow:0 12px 40px rgba(2,8,14,0.6)}
@@ -71,10 +91,12 @@ html, body {
         <div class="tag">Hide it from the world</div>
       </div>
       <nav>
-        <a href="#home" id="nav-home">Home</a>
-        <a href="#encrypt" id="nav-encrypt">Encrypt</a>
-        <a href="#decrypt" id="nav-decrypt">Decrypt</a>
-      </nav>
+  <a href="#home" id="nav-home">Home</a>
+  <a href="#encrypt" id="nav-encrypt">Encrypt</a>
+  <a href="#decrypt" id="nav-decrypt">Decrypt</a>
+  <a href="#pc" id="nav-pc">HideIt PC</a>
+</nav>
+
     </header>
 
     <main>
@@ -112,6 +134,33 @@ To recover your data, simply open the Decrypt page, upload your key, paste the e
         <div id="dec-status" class="status"></div>
         <div id="dec-list" class="files-list"></div>
       </section>
+      
+      <section id="page-pc" class="card" style="display:none; text-align:center;">
+  <h2>HideIt PC — Offline Version</h2>
+  <p style="font-size:18px; color:var(--muted); margin-top:10px;">
+    Get the offline desktop version of <strong style="color:var(--neon)">HideIt</strong> and encrypt your files even without internet.
+  </p>
+
+  <div style="margin-top:30px; display:flex; justify-content:center;">
+    <a href="https://drive.google.com/file/d/1CFqy81kSXvWxMX9RhzsDFobFkdOcFld0/view?usp=sharing"
+       target="_blank"
+       style="text-decoration:none;">
+      <button class="download-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="24" height="24" fill="white" style="margin-right:10px;">
+          <path d="M0 0h40v40H0V0zm48 0h40v40H48V0zM0 48h40v40H0V48zm48 0h40v40H48V48z"/>
+        </svg>
+        Download for Windows
+      </button>
+    </a>
+  </div>
+
+  <p style="margin-top:20px; color:var(--muted); font-size:16px;">
+    Simply <strong style="color:var(--neon)">download</strong>, <strong style="color:var(--neon)">extract</strong> the folder, and run <strong>HideIt&nbsp;Pro&nbsp;PC.exe</strong>.
+  </p>
+</section>
+
+
+
     </main>
 
     <footer>A GameDev Ayaan creation.</footer>
@@ -160,7 +209,12 @@ To recover your data, simply open the Decrypt page, upload your key, paste the e
     resize(); draw();
 
     // --- Router ---
-    const pages={home:document.getElementById('page-home'),encrypt:document.getElementById('page-encrypt'),decrypt:document.getElementById('page-decrypt')};
+    const pages={
+  home:document.getElementById('page-home'),
+  encrypt:document.getElementById('page-encrypt'),
+  decrypt:document.getElementById('page-decrypt'),
+  pc:document.getElementById('page-pc')
+};
     function showPage(name){Object.keys(pages).forEach(k=>pages[k].style.display=(k===name?'block':'none'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('nav-'+name).classList.add('active');}
     function route(){const h=location.hash.replace('#','')||'home';if(!pages[h])location.hash='#home';showPage(h||'home');}
     window.addEventListener('hashchange',route);route();
